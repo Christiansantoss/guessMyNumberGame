@@ -8,7 +8,12 @@ let score = 20;
 // variable for high score to keep track when resetting game with 'again' click
 let highscore = 0;
 
-// line below displays secret number
+// code below to refacor all the messages DRY!
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
+// line below displays secret number ***for testing***
 // document.querySelector('.number').textContent = secretNumber;
 
 document.querySelector('.check').addEventListener('click', function () {
@@ -23,11 +28,14 @@ document.querySelector('.check').addEventListener('click', function () {
 
   // when there is no input logic
   if (!guess) {
-    document.querySelector('.message').textContent = '⛔️  No number!';
+    // line 32 refactored in 33
+    //document.querySelector('.message').textContent = '⛔️  No number!';
+    displayMessage('⛔️  No number!');
   }
   // when player wins the game logic
   else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = '🎉 Correct Number!';
+    // document.querySelector('.message').textContent = '🎉 Correct Number!';
+    displayMessage('🎉 Correct Number!');
     document.querySelector('.number').textContent = secretNumber;
 
     // background color turns green win player wins game
@@ -46,14 +54,18 @@ document.querySelector('.check').addEventListener('click', function () {
   // in order to keep code dry
   else if (guess !== secretNumber) {
     if (score > 1) {
+      /*
       document.querySelector('.message').textContent =
         guess > secretNumber ? '📈 Too High!' : '📉 Too low!';
+        */
+      displayMessage(guess > secretNumber ? '📈 Too High!' : '📉 Too low!');
       score = score - 1;
       document.querySelector('.score').textContent = score;
     }
     // when your score reaches 0
     else {
-      document.querySelector('.message').textContent = 'you lost the game 😔 ';
+      // document.querySelector('.message').textContent = 'you lost the game 😔 ';
+      displayMessage('you lost the game 😔 ');
       document.querySelector('.score').textContent = 0;
     }
   }
@@ -93,7 +105,8 @@ when guess is too low logic
 document.querySelector('.again').addEventListener('click', function () {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
-  document.querySelector('.message').textContent = 'Start guessing...';
+  // document.querySelector('.message').textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   document.querySelector('.score').textContent = score;
   document.querySelector('.number').textContent = '?';
   document.querySelector('.guess').value = '';
